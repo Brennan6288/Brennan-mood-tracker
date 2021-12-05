@@ -8,6 +8,7 @@
    		 email
    	 });
 
+    alert()
    	 if (error) alert(error.message); // alert if error
     }
 </script>
