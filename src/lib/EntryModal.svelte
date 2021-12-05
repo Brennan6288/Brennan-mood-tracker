@@ -6,6 +6,25 @@
     let year = '2021';
     let mood = 'Okay';
     let comment = 'This is a comment';
+
+    import supabase from '$lib/db';
+
+// Insert entry
+async function saveEntry() {
+    const { error } = await supabase.from('moodEntries').insert(
+   	 {
+   		 user_id: supabase.auth.user().id,
+   		 day: day,
+   		 month: month,
+   		 year: year,
+   		 mood: mood,
+   		 comment: comment
+   	 }
+    );
+    if (error) alert(error.message);
+
+    location.reload(); // Refresh the page.
+}
 </script>
 <div class="modal fade" id="newEntry" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -53,6 +72,7 @@
                             autocomplete="off"
                             on:click={() => {
                                 emoji = emojiList.worst;
+                                mood = 'Worst';
                             }}
                         />
                         <label class="btn btn-outline-danger" for="worst">Worst</label>
@@ -65,6 +85,7 @@
                             autocomplete="off"
                             on:click={() => {
                                 emoji = emojiList.bad;
+                                mood = 'Bad';
                             }}
                         />
                         <label class="btn btn-outline-warning" for="bad">Bad</label>
@@ -77,6 +98,7 @@
                             autocomplete="off"
                             on:click={() => {
                                 emoji = emojiList.okay;
+                                mood = 'Okay';
                             }}
                         />
                         <label class="btn btn-outline-primary" for="okay">Okay</label>
@@ -89,6 +111,7 @@
                             autocomplete="off"
                             on:click={() => {
                                 emoji = emojiList.good;
+                                mood = 'Good';
                             }}
                         />
                         <label class="btn btn-outline-info" for="good">Good</label>
@@ -101,6 +124,7 @@
                             autocomplete="off"
                             on:click={() => {
                                 emoji = emojiList.best;
+                                mood = 'Best';
                             }}
                         />
                         <label class="btn btn-outline-success" for="best">Best</label>
@@ -115,7 +139,7 @@
 
    		 <div class="modal-footer">
    			 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-   			 <button type="button" class="btn btn-primary">Add</button>
+   			 <button type="button" class="btn btn-primary" on:click={saveEntry}>Add</button>
    		 </div>
    	 </div>
     </div>
